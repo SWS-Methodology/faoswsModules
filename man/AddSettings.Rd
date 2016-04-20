@@ -4,10 +4,10 @@
 \alias{AddSettings}
 \title{Add settings file to project}
 \usage{
-AddSettings(filename = "sws.yml", gitignore = TRUE, fields = NULL)
+AddSettings(file = "sws.yml", gitignore = TRUE, fields = NULL)
 }
 \arguments{
-\item{filename}{character.}
+\item{file}{character.}
 
 \item{gitignore}{character.}
 
