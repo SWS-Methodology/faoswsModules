@@ -1,0 +1,10 @@
+Package: faoswsModules
+Type: Package
+Title: Tools to create and maintain modules of the Statistical Working System
+Version: 0.1.0
+Author: Sebastian Campbell
+Maintainer: Sebastian Campbell <sebastian.campbell@fao.org>
+Description: Makes settings files and skeletons for modules
+License: FAO
+LazyData: TRUE
+RoxygenNote: 5.0.1
