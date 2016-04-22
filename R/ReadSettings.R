@@ -40,7 +40,7 @@ ReadSettings <- function(file="sws.yml"){
 
   if(!is.null(globalfile)){
     if(!file.exists(globalfile)){
-      stop("Global file %s specified in %s does not exist.", globalfile, file)
+      stop(sprintf("Global file %s specified in %s does not exist", globalfile, file))
     } else {
       global <- yaml.load_file(globalfile)
     }

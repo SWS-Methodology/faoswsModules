@@ -9,6 +9,8 @@
 #' @keywords internal
 
 MergeList <- function (list1, list2, no.rm = FALSE) {
+  list1 <- as.list(list1)
+  list2 <- as.list(list2)
   allNames <- unique(c(names(list1), names(list2)))
   merged <- list1 # we will copy over/replace values from list2 as necessary
   for (x in allNames) {
