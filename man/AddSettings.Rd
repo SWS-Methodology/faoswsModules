@@ -7,13 +7,23 @@
 AddSettings(file = "sws.yml", gitignore = TRUE, fields = NULL)
 }
 \arguments{
-\item{file}{character.}
+\item{file}{character. Name of settings file to write}
 
-\item{gitignore}{character.}
+\item{gitignore}{logical. Should this file be added to the .gitignore?}
 
-\item{fields}{list.}
+\item{fields}{list. Manually specify the structure of the settings file}
 }
 \description{
-Add settings file to project
+Creates a sample settings file, by default:
+
+current: qa \cr
+all: \cr
+\Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} share: /media/share \cr
+qa: \cr
+\Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} server: https://hqlqasws1.hq.un.fao.org:8181/sws \cr
+\Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} token: abcdef0123456789 \cr
+production: \cr
+\Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} server: https://hqlprswsas1.hq.un.fao.org:8181/sws \cr
+\Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} token: 9876543210fedcba
 }
 

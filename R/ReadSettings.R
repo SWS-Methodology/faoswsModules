@@ -1,6 +1,22 @@
-#'Read settings file
+#' Read settings file
 #'
-#' @param file character.
+#' A settings file allows a user of the SWS to make changes to the parameters of
+#' a script without changing the script itself. The format itself is very
+#' flexible yaml file, but has three special sections:
+#'
+#' \itemize{
+#' \item \emph{current} - This required field indicates the current
+#' server to which the script is directed
+#' \item \emph{global} - This optional file indicates the location of a global
+#' file from which you may fetch settings.
+#' \item \emph{all} - This optional field specifies settings that should always
+#' be uses. It overrides settings in the global file and is overwritten by
+#' specific server settings.}
+#'
+#'
+#' @param file character. Name of the settings file.
+#'
+#' @seealso AddSettings
 #'
 #' @import yaml
 #'

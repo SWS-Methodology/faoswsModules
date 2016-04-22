@@ -1,8 +1,20 @@
 #' Add settings file to project
 #'
-#' @param file character.
-#' @param gitignore character.
-#' @param fields list.
+#' @description  Creates a sample settings file, by default:
+#'
+#' current: qa \cr
+#' all: \cr
+#' \Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} share: /media/share \cr
+#' qa: \cr
+#' \Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} server: https://hqlqasws1.hq.un.fao.org:8181/sws \cr
+#' \Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} token: abcdef0123456789 \cr
+#' production: \cr
+#' \Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} server: https://hqlprswsas1.hq.un.fao.org:8181/sws \cr
+#' \Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} token: 9876543210fedcba
+#'
+#' @param file character. Name of settings file to write
+#' @param gitignore logical. Should this file be added to the .gitignore?
+#' @param fields list. Manually specify the structure of the settings file
 #'
 #' @import yaml
 #' @export
@@ -44,7 +56,7 @@ AddSettings <- function(file = "sws.yml", gitignore = TRUE, fields=NULL){
 
   } else {
     # If neither exist, create them
-    message("Neither settings nor example file exist. Creating %s and %s", file, examplefile)
+    message(sprintf("Neither settings nor example file exist. Creating %s and %s", file, examplefile))
     writeLines(as.yaml(yaml_list), file)
     writeLines(as.yaml(yaml_list), examplefile)
   }
