@@ -11,13 +11,13 @@
 #'
 #' @export
 
-AddModule <- function(name="New module", dir = "."){
+AddModule <- function(name="New module", dir = "modules/newmodule"){
 
   dir <- path.expand(dir)
 
   if (!file.exists(dir)){
     message(sprintf("Directory %s doesn't exist. Creating it.", dir))
-    dir.create(dir)
+    dir.create(dir, recursive = TRUE)
   }
 
   mainfilename <-  "main.R"
