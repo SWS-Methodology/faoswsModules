@@ -10,11 +10,12 @@
 AddSettings <- function(file = "sws.yml", gitignore = TRUE, fields=NULL){
 
   # Basic settings file
-  yaml_list <- list(all = list(share="/media/share"),
-                     qa = list(server="https://hqlqasws1.hq.un.fao.org:8181/sws",
-                               token="abcdef0123456789"),
-                     production = list(server="https://hqlprswsas1.hq.un.fao.org:8181/sws",
-                                       token="9876543210fedcba"))
+  yaml_list <- list(current = "qa",
+    all = list(share="/media/share"),
+    qa = list(server="https://hqlqasws1.hq.un.fao.org:8181/sws",
+              token="abcdef0123456789"),
+    production = list(server="https://hqlprswsas1.hq.un.fao.org:8181/sws",
+                      token="9876543210fedcba"))
 
   # Overwrite the basic with a new one if it is provided
   if(!is.null(fields)){
@@ -36,8 +37,8 @@ AddSettings <- function(file = "sws.yml", gitignore = TRUE, fields=NULL){
               examplefile, file)
       file.copy(examplefile, file)
     } else {
-      message(sprintf("Every settings file should have an example file. Creating example file %s"),
-              examplefile)
+      message(sprintf("Every settings file should have an example file. Creating example file %s",
+              examplefile))
       file.copy(file, examplefile)
     }
 
@@ -66,5 +67,5 @@ AddSettings <- function(file = "sws.yml", gitignore = TRUE, fields=NULL){
     }
   }
 
-  message(sprintf("[SUCCESS] Settings file %s prepared", file))
+  message(sprintf("[SUCCESS] Settings file prepared"))
 }
