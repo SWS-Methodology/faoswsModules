@@ -9,9 +9,12 @@
 #' \item script subdirectories (future release)
 #' }
 #'
+#' @param name character. Name of the new module
+#' @param dir character. Directory in which to place the new module
+#'
 #' @export
 
-AddModule <- function(name="New module", dir = "modules/newmodule"){
+AddModule <- function(name="new_module", dir = sprintf("modules/%s", name)){
 
   dir <- path.expand(dir)
 

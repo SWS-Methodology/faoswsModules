@@ -12,9 +12,10 @@ Merge two lists together
 \examples{
 a <- list( a=list(a=1, b=2), b=3, c=1)
 b <- list( a=2 , c=2)
-MergeList(a,b)
+faoswsModules:::MergeList(a,b)
 x <- list( A=list(p=runif(5), q=list(y=3, z=2)), B=list(q=runif(5)) )
 y <- list( A=list(r=runif(5), p=1:5, q = list(z=1, m=2)), C=list(s=runif(5)) )
+faoswsModules:::MergeList(x, y)
 }
 \keyword{internal}
 

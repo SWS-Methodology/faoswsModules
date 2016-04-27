@@ -4,7 +4,7 @@ Title: Tools to create and maintain modules of the Statistical Working System
 Version: 0.1.0
 Author: Sebastian Campbell
 Maintainer: Sebastian Campbell <sebastian.campbell@fao.org>
-Description: Makes settings files and skeletons for modules
+Description: Makes settings files and skeletons for modules.
 License: FAO
 Imports: yaml
 Suggests: testthat

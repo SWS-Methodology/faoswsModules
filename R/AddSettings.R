@@ -1,16 +1,17 @@
 #' Add settings file to project
 #'
-#' @description  Creates a sample settings file, by default:
+#' @description  Creates a sample settings file, by default (leading dashes for
+#'   formatting, whitespace in the actual file):
 #'
 #' current: qa \cr
 #' all: \cr
-#' \Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} share: /media/share \cr
+#' --- share: /media/share \cr
 #' qa: \cr
-#' \Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} server: https://hqlqasws1.hq.un.fao.org:8181/sws \cr
-#' \Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} token: abcdef0123456789 \cr
+#' --- server: https://hqlqasws1.hq.un.fao.org:8181/sws \cr
+#' --- token: abcdef0123456789 \cr
 #' production: \cr
-#' \Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} server: https://hqlprswsas1.hq.un.fao.org:8181/sws \cr
-#' \Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} \Sexpr{"\u200B"} token: 9876543210fedcba
+#' --- server: https://hqlprswsas1.hq.un.fao.org:8181/sws \cr
+#' --- token: 9876543210fedcba
 #'
 #' @param file character. Name of settings file to write
 #' @param gitignore logical. Should this file be added to the .gitignore?

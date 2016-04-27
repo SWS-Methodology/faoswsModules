@@ -4,7 +4,12 @@
 \alias{AddModule}
 \title{Make module skeleton}
 \usage{
-AddModule(name = "New module", dir = "modules/newmodule")
+AddModule(name = "new_module", dir = sprintf("modules/\%s", name))
+}
+\arguments{
+\item{name}{character. Name of the new module}
+
+\item{dir}{character. Directory in which to place the new module}
 }
 \description{
 Make everything you need to get started on making modules for the Statisical
