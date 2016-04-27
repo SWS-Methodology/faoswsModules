@@ -4,12 +4,12 @@
 \alias{ReadSettings}
 \title{Read settings file}
 \usage{
-ReadSettings(file = "sws.yml", server = NULL)
+ReadSettings(file = "sws.yml", current = NULL)
 }
 \arguments{
 \item{file}{character. Name of the settings file.}
 
-\item{server}{character. This overrides the 'current' field in the settings
+\item{current}{character. This overrides the 'current' field in the settings
 file.}
 }
 \description{

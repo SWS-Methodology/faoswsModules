@@ -15,7 +15,7 @@
 #'
 #'
 #' @param file character. Name of the settings file.
-#' @param server character. This overrides the 'current' field in the settings
+#' @param current character. This overrides the 'current' field in the settings
 #'   file.
 #'
 #' @seealso AddSettings
@@ -24,7 +24,7 @@
 #'
 #' @export
 
-ReadSettings <- function(file="sws.yml", server=NULL){
+ReadSettings <- function(file="sws.yml", current=NULL){
 
   if(!file.exists(file)){
     stop(sprintf("The settings file, %s, doesn't exist", file))
@@ -32,11 +32,11 @@ ReadSettings <- function(file="sws.yml", server=NULL){
 
   raw_yaml <- yaml.load_file(file)
 
-  if(is.null(server)) {
+  if(is.null(current)) {
 
-    server <- raw_yaml[["current"]]
+    current <- raw_yaml[["current"]]
 
-    if(is.null(server)){
+    if(is.null(current)){
       stop("No server specified in the 'current' field")
     }
   }
@@ -54,8 +54,8 @@ ReadSettings <- function(file="sws.yml", server=NULL){
     global <- NULL
   }
 
-  if(!(server %in% c(names(global), names(raw_yaml)))){
-    stop(sprintf("Server '%s' is not in any settings file", server))
+  if(!(current %in% c(names(global), names(raw_yaml)))){
+    stop(sprintf("Server '%s' is not in any settings file", current))
   }
 
   ## -------- Assign in priority order --------
@@ -65,7 +65,7 @@ ReadSettings <- function(file="sws.yml", server=NULL){
 
   #### Global settings ####
   if(!is.null(global)) {
-    current_global  <- global[[server]]
+    current_global  <- global[[current]]
     if(!is.null(current_global))
     yaml_settings <- current_global
   }
@@ -75,11 +75,11 @@ ReadSettings <- function(file="sws.yml", server=NULL){
   yaml_settings <- MergeList(yaml_settings, all_settings)
 
   #### Local settings ####
-  local_settings <- raw_yaml[[server]]
+  local_settings <- raw_yaml[[current]]
   yaml_settings <- MergeList(yaml_settings, local_settings)
 
   # Combine current value
-  yaml_settings <- c(current = server, yaml_settings)
+  yaml_settings <- c(current = current, yaml_settings)
 
   yaml_settings
 }
