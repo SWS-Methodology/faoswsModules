@@ -4,7 +4,7 @@
 \alias{AddModule}
 \title{Make module skeleton}
 \usage{
-AddModule(name = "New module", dir = ".")
+AddModule(name = "New module", dir = "modules/newmodule")
 }
 \description{
 Make everything you need to get started on making modules for the Statisical
