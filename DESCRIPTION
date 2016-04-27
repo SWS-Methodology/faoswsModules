@@ -7,5 +7,6 @@ Maintainer: Sebastian Campbell <sebastian.campbell@fao.org>
 Description: Makes settings files and skeletons for modules
 License: FAO
 Imports: yaml
+Suggests: testthat
 LazyData: TRUE
 RoxygenNote: 5.0.1
