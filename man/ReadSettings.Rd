@@ -4,10 +4,13 @@
 \alias{ReadSettings}
 \title{Read settings file}
 \usage{
-ReadSettings(file = "sws.yml")
+ReadSettings(file = "sws.yml", server = NULL)
 }
 \arguments{
 \item{file}{character. Name of the settings file.}
+
+\item{server}{character. This overrides the 'current' field in the settings
+file.}
 }
 \description{
 A settings file allows a user of the SWS to make changes to the parameters of

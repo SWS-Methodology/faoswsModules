@@ -15,6 +15,8 @@
 #'
 #'
 #' @param file character. Name of the settings file.
+#' @param server character. This overrides the 'current' field in the settings
+#'   file.
 #'
 #' @seealso AddSettings
 #'
@@ -22,17 +24,21 @@
 #'
 #' @export
 
-ReadSettings <- function(file="sws.yml"){
+ReadSettings <- function(file="sws.yml", server=NULL){
 
   if(!file.exists(file)){
     stop(sprintf("The settings file, %s, doesn't exist", file))
   }
 
   raw_yaml <- yaml.load_file(file)
-  server <- raw_yaml[["current"]]
 
-  if(is.null(server)){
-    stop("No server specified in the 'current' field")
+  if(is.null(server)) {
+
+    server <- raw_yaml[["current"]]
+
+    if(is.null(server)){
+      stop("No server specified in the 'current' field")
+    }
   }
 
   ## -------- Extract special values --------
