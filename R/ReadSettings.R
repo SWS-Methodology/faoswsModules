@@ -10,7 +10,7 @@
 #' \item \emph{global} - This optional file indicates the location of a global
 #' file from which you may fetch settings.
 #' \item \emph{all} - This optional field specifies settings that should always
-#' be uses. It overrides settings in the global file and is overwritten by
+#' be used. It overrides settings in the global file and is overwritten by
 #' specific server settings.}
 #'
 #'
