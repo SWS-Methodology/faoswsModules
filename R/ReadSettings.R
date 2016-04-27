@@ -79,7 +79,7 @@ ReadSettings <- function(file="sws.yml", server=NULL){
   yaml_settings <- MergeList(yaml_settings, local_settings)
 
   # Combine current value
-  yaml_settings <- c(current = raw_yaml[["current"]], yaml_settings)
+  yaml_settings <- c(current = server, yaml_settings)
 
   yaml_settings
 }
