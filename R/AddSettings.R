@@ -7,9 +7,11 @@
 #' all: \cr
 #' --- share: /media/share \cr
 #' qa: \cr
+#' --- certdir: path/to/qa/certs\cr
 #' --- server: https://hqlqasws1.hq.un.fao.org:8181/sws \cr
 #' --- token: abcdef0123456789 \cr
 #' production: \cr
+#' --- certdir: path/to/prod/certs\cr
 #' --- server: https://hqlprswsas1.hq.un.fao.org:8181/sws \cr
 #' --- token: 9876543210fedcba
 #'
@@ -24,11 +26,13 @@ AddSettings <- function(file = "sws.yml", gitignore = TRUE, fields=NULL){
 
   # Basic settings file
   yaml_list <- list(current = "qa",
-    all = list(share="/media/share"),
-    qa = list(server="https://hqlqasws1.hq.un.fao.org:8181/sws",
-              token="abcdef0123456789"),
-    production = list(server="https://hqlprswsas1.hq.un.fao.org:8181/sws",
-                      token="9876543210fedcba"))
+                    all = list(share="/media/share"),
+                    qa = list(certdir="path/to/qa/certs",
+                              server="https://hqlqasws1.hq.un.fao.org:8181/sws",
+                              token="abcdef0123456789"),
+                    production = list(certdir="path/to/prod/certs",
+                                      server="https://hqlprswsas1.hq.un.fao.org:8181/sws",
+                                      token="9876543210fedcba"))
 
   # Overwrite the basic with a new one if it is provided
   if(!is.null(fields)){

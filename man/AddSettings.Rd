@@ -21,9 +21,11 @@ current: qa \cr
 all: \cr
 --- share: /media/share \cr
 qa: \cr
+--- certdir: path/to/qa/certs\cr
 --- server: https://hqlqasws1.hq.un.fao.org:8181/sws \cr
 --- token: abcdef0123456789 \cr
 production: \cr
+--- certdir: path/to/prod/certs\cr
 --- server: https://hqlprswsas1.hq.un.fao.org:8181/sws \cr
 --- token: 9876543210fedcba
 }
