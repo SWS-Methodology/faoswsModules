@@ -70,12 +70,18 @@ AddSettings <- function(file = "sws.yml", gitignore = TRUE, fields=NULL){
   # Add to .gitignore
   if(gitignore){
     if(file.exists(".gitignore")){
-      parsed_gitignore <- readLines(".gitignore")
+      no_newline <- FALSE
+      parsed_gitignore <- withCallingHandlers(readLines(".gitignore"),
+                                              warning = function(w){
+                                                if(grepl("incomplete final line found on", w$message)){
+                                                  no_newline <<- TRUE
+                                                }
+                                              })
 
       if(!(file %in% parsed_gitignore)){
         ignore_connection <- file(".gitignore", "a")
         on.exit(close(ignore_connection))
-        writeLines(file, ignore_connection)
+        writeLines(paste0("\n"[no_newline], file), ignore_connection)
         message(sprintf("filename %s added to .gitignore", file))
       } else {
         message(sprintf("filename %s already in .gitignore, not re-added", file))
