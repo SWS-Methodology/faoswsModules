@@ -27,7 +27,9 @@
 ReadSettings <- function(file="sws.yml", current=NULL){
 
   if(!file.exists(file)){
-    stop(sprintf("The settings file, %s, doesn't exist", file))
+    stop(sprintf("The settings file, %1$s, doesn't exist. Maybe you should
+    create one. If there's a %1$s.example file, copy that to %1$s. If not, you
+    can create a sample one using Addsettings()", file))
   }
 
   raw_yaml <- yaml.load_file(file)
