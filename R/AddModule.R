@@ -12,13 +12,13 @@
 #' @param name character. Name of the new module
 #' @param dir character. Directory in which to place the new module
 #'
-#' @export
+#' @export AddModule
 
 AddModule <- function(name="new_module", dir = sprintf("modules/%s", name)){
 
-  dir <- path.expand(dir)
+  module_dir <- path.expand(dir)
 
-  if (!file.exists(dir)){
+  if (!file.exists(module_dir)){
     message(sprintf("Directory %s doesn't exist. Creating it.", dir))
     dir.create(dir, recursive = TRUE)
   }
@@ -28,13 +28,18 @@ AddModule <- function(name="new_module", dir = sprintf("modules/%s", name)){
 
   package_path <- path.package("faoswsModules")
 
-  if (file.exists(file.path(dir, mainfilename))){
-    message(sprintf("%s exists. Will not overwrite", mainfilename))
+chooseCopy(mainfilename, "sample_main.R", module_dir)
+chooseCopy(metadatafilename, "sample_metadata.xml", module_dir)
+
+}
+
+chooseCopy <- function(file, samplefile, dir){
+  if (file.exists(file.path(dir, file))){
+    message(sprintf("%s exists. Will not overwrite", file))
 
   } else {
 
-    file.copy(file.path(package_path, "sample_main.R"), file.path(dir, "main.R"))
-    message(sprintf("File %s created in %s", mainfilename, dir))
+    file.copy(file.path(path.package("faoswsModules"), samplefile), file.path(dir, file))
+    message(sprintf("File %s created in %s", file, dir))
   }
-
 }
