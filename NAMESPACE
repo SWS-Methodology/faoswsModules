@@ -2,5 +2,6 @@
 
 export(AddModule)
 export(AddSettings)
+export(CopyKey)
 export(ReadSettings)
 import(yaml)
