@@ -3,3 +3,4 @@
 ^sws\.yml
 ^test$
 ^modules$
+.travis.yml
