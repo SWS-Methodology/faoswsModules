@@ -3,5 +3,6 @@
 export(AddModule)
 export(AddSettings)
 export(CopyKey)
+export(PublishModule)
 export(ReadSettings)
 import(yaml)
