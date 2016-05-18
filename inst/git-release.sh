@@ -5,14 +5,15 @@ BASEPATH=$1
 echo basepath is $BASEPATH
 TEMP=$(mktemp -dt)
 echo tempfile is $TEMP
-RMAIN=main.R
+RMAIN=
 
 cd $BASEPATH
 
-# for var in ${@:2}
-#  do
-#    echo "$BASEPATH/$var
-# done
+# Define main R script. Can't be in a sub directory and must be an R file
+for var in ${@:2}
+  do
+    RMAIN=$RMAIN$(echo $var | grep -v '/' | grep '\.[rR]$')
+  done
 
 if ! git diff-index --quiet HEAD -- "${@:2}"; then
     echo "Error: There have been changes made to this file since the last commit.
@@ -22,8 +23,12 @@ fi
 
 for file in ${@:2}
   do
-    echo file is "$file" copied to $TEMP
     cp --parents "$file" $TEMP
+
+    if [ $? -ne 0 ]; then
+      echo "Error: $file doesn't exist!"
+      exit 2
+    fi
   done
 
 CUR=$(git rev-parse HEAD)
