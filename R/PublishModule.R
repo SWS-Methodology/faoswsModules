@@ -23,11 +23,11 @@ PublishModule <- function(modulepath, ignore = file.path(modulepath, ".moduleign
                      allfiles, value = TRUE, invert = TRUE)
   }
   # Check main.R
-  if(length(grep(".*\\.[Rr]$", allfiles) != 1)){
+  if(length(grep(".*\\.[Rr]$", allfiles)) != 1){
     stop("A module must have one and only one .R file in the root directory")
   }
   # Check metadata.xml
-  if(length(grep(".*\\.(xml|XML)$", allfiles) != 1)){
+  if(length(grep(".*\\.(xml|XML)$", allfiles)) != 1){
     stop("A module must have one and only one .R file in the root directory")
   }
 
