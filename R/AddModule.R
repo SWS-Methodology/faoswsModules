@@ -26,8 +26,6 @@ AddModule <- function(name="new_module", dir = sprintf("modules/%s", name)){
   mainfilename <-  "main.R"
   metadatafilename <- "metadata.xml"
 
-  package_path <- path.package("faoswsModules")
-
 chooseCopy(mainfilename, "sample_main.R", module_dir)
 chooseCopy(metadatafilename, "sample_metadata.xml", module_dir)
 
