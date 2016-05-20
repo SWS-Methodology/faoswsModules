@@ -22,12 +22,12 @@ CopyKey <- function(key){
 
     dimension_names <- vapply(key@dimensions, function(x) x@name, character(1))
 
-    readline("Clipboard will be overwritten. Press Esc to cancel. Press any other key to confirm.")
+    readline("Clipboard will be overwritten. Press Esc to cancel. Press [Enter] to confirm.")
     message(sprintf("Keys are for dataset %s:%s", key@domain, key@dataset))
 
     for(i in seq_along(dimension_names)){
         writeClip(key@dimensions[[i]]@keys)
-        readline(sprintf("Key %s written to clipboard. Go paste it in the web interface then press any key", dimension_names[i]))
+        readline(sprintf("Key %s written to clipboard. Go paste it in the web interface then [Enter]", dimension_names[i]))
     }
 
     message("All keys copied!")
