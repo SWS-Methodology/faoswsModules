@@ -4,10 +4,13 @@
 \alias{PublishModule}
 \title{Publish a module as a zip file}
 \usage{
-PublishModule(modulepath, ignore = file.path(modulepath, ".moduleignore"))
+PublishModule(modulepath, destdir = modulepath,
+  ignore = file.path(modulepath, ".moduleignore"))
 }
 \arguments{
 \item{modulepath}{character. Module path relative to the project root}
+
+\item{destdir}{character. Destination directory for module. By default, \code{modulepath}}
 
 \item{ignore}{character. Location of ignore file}
 }

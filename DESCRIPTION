@@ -6,7 +6,7 @@ Author: Sebastian Campbell
 Maintainer: Sebastian Campbell <sebastian.campbell@fao.org>
 Description: Makes settings files and skeletons for modules.
 License: FAO
-Imports: yaml
+Imports: yaml, git2r (>= 0.15.0.9000)
 Suggests: testthat
 LazyData: TRUE
 RoxygenNote: 5.0.1

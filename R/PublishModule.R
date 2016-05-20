@@ -8,40 +8,69 @@
 #' commit hash. They are then zipped up and copied back to the module folder.
 #'
 #' @param modulepath character. Module path relative to the project root
+#' @param destdir character. Destination directory for module. By default, \code{modulepath}
 #' @param ignore character. Location of ignore file
 #'
+#' @importFrom git2r repository status revparse_single
 #' @export
 
-PublishModule <- function(modulepath, ignore = file.path(modulepath, ".moduleignore")){
-  # Check for main.R
+PublishModule <- function(modulepath, destdir = modulepath, ignore = file.path(modulepath, ".moduleignore")){
+
   allfiles <- list.files(modulepath, recursive = TRUE)
+  alldirs <- list.dirs(modulepath, full.names=FALSE)
+  # By default includes self. Excluding it
+  alldirs <- alldirs[alldirs != ""]
 
   if(file.exists(ignore)){
     ignoredfiles <- readLines(ignore)
     ignoredfiles <- ignoredfiles[ignoredfiles != "" & !grepl("^#", ignoredfiles)]
-    allfiles <- grep(paste(ignoredfiles, collapse = "|"),
-                     allfiles, value = TRUE, invert = TRUE)
+    ignoreregex <- paste(ignoredfiles, collapse = "|")
+    allfiles <- grep(ignoreregex, allfiles, value = TRUE, invert = TRUE)
+    alldirs <- grep(ignoreregex, alldirs, value = TRUE, invert = TRUE)
   }
+  subdirfiles <- grep("/", allfiles, value = TRUE)
+  basefiles <- setdiff(allfiles, subdirfiles)
   # Check main.R
-  if(length(grep(".*\\.[Rr]$", allfiles)) != 1){
+  mainRfile <- grep(".*\\.[Rr]$", basefiles, value = TRUE)
+  if(length(mainRfile) != 1){
     stop("A module must have one and only one .R file in the root directory")
   }
+  metadatafile <- grep(".*\\.(xml|XML)$", basefiles, value = TRUE)
   # Check metadata.xml
-  if(length(grep(".*\\.(xml|XML)$", allfiles)) != 1){
+  if(length(metadatafile) != 1){
     stop("A module must have one and only one .R file in the root directory")
   }
 
-  subdirfiles <- grep("/", allfiles, value = T)
   if(any(!grepl(".*\\.[rR]$", subdirfiles))){
     stop("All files in subdirectories must be .R files")
   }
 
-  gitfunc <- file.path(path.package("faoswsModules"), "git-release.sh")
-  command <- paste(gitfunc, modulepath, paste(allfiles, collapse = " "), collapse = " ")
-  if(Sys.info()["sysname"] == "Windows"){
-    shell(command, mustWork=TRUE)
-  } else {
-    system(command)
+  abs_path <- function(paths){
+    vapply(paths, tools::file_path_as_absolute, character(1))
   }
+
+  repo <- repository(".")
+  uncommitted <- abs_path(unlist(status(repo, all_untracked = TRUE)))
+  module_uncommitted_index <- abs_path(file.path(modulepath,allfiles)) %in% uncommitted
+  if(any(module_uncommitted_index)){
+    stop(paste0("Some of the files that you wish to add to the modules are not in a commit:
+         ", paste(allfiles[module_uncommitted_index], collapse = ", ")))
+  }
+  # Make temporary file where we'll be zipping things
+  temp <- tempfile()
+  dir.create(temp)
+  on.exit(unlink(temp, recursive = TRUE))
+
+  vapply(file.path(temp, alldirs), dir.create, logical(1), recursive = TRUE)
+  file.copy(file.path(modulepath, allfiles), file.path(temp, allfiles))
+  # Write HEAD commit to top of main R file
+  current_commit <- revparse_single(repo, "HEAD")@sha
+  mainRcontent <- c(paste0("Commit: ", current_commit),
+                    readLines(file.path(temp, mainRfile))
+  )
+  writeLines(mainRcontent, file.path(temp, mainRfile))
+  # save module
+  zip(file.path(destdir, paste0("module-", substr(current_commit, 1,6), ".zip")),
+      list.files(temp, full.names = TRUE, recursive = TRUE))
 
 }
