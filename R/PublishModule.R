@@ -16,6 +16,12 @@
 
 PublishModule <- function(modulepath, destdir = modulepath, ignore = file.path(modulepath, ".moduleignore")){
 
+  abs_path <- function(paths){
+    vapply(paths, tools::file_path_as_absolute, character(1))
+  }
+
+  destdir <- abs_path(destdir)
+
   allfiles <- list.files(modulepath, recursive = TRUE)
   alldirs <- list.dirs(modulepath, full.names=FALSE)
   # By default includes self. Excluding it
@@ -43,10 +49,6 @@ PublishModule <- function(modulepath, destdir = modulepath, ignore = file.path(m
 
   if(any(!grepl(".*\\.[rR]$", subdirfiles))){
     stop("All files in subdirectories must be .R files")
-  }
-
-  abs_path <- function(paths){
-    vapply(paths, tools::file_path_as_absolute, character(1))
   }
 
   repo <- repository(".")
