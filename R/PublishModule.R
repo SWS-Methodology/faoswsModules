@@ -52,10 +52,13 @@ PublishModule <- function(modulepath, destdir = modulepath, ignore = file.path(m
   repo <- repository(".")
   uncommitted <- abs_path(unlist(status(repo, all_untracked = TRUE)))
   module_uncommitted_index <- abs_path(file.path(modulepath,allfiles)) %in% uncommitted
+
   if(any(module_uncommitted_index)){
     stop(paste0("Some of the files that you wish to add to the modules are not in a commit:
-         ", paste(allfiles[module_uncommitted_index], collapse = ", ")))
+         ", paste(allfiles[module_uncommitted_index], collapse = ", "),
+          "\nEither stash, commit or remove the file(s) to perfom an automatic publish"))
   }
+
   # Make temporary file where we'll be zipping things
   temp <- tempfile()
   dir.create(temp)
@@ -65,12 +68,15 @@ PublishModule <- function(modulepath, destdir = modulepath, ignore = file.path(m
   file.copy(file.path(modulepath, allfiles), file.path(temp, allfiles))
   # Write HEAD commit to top of main R file
   current_commit <- revparse_single(repo, "HEAD")@sha
-  mainRcontent <- c(paste0("Commit: ", current_commit),
+  mainRcontent <- c(paste0("# Commit: ", current_commit),
                     readLines(file.path(temp, mainRfile))
   )
   writeLines(mainRcontent, file.path(temp, mainRfile))
   # save module
+  owd <- getwd()
+  on.exit(setwd(owd), add = TRUE)
+  setwd(temp)
   zip(file.path(destdir, paste0("module-", substr(current_commit, 1,6), ".zip")),
-      list.files(temp, full.names = TRUE, recursive = TRUE))
+      list.files(temp, recursive = TRUE))
 
 }
