@@ -12,6 +12,8 @@
 #' @param key DatasetKey. Object obtained from the \code{faosws} package. It's
 #'   the data type of the \code{swsContext.datasets[[1]]} object
 #'
+#' @importFrom methods is
+#'
 #' @export CopyKey
 
 CopyKey <- function(key){

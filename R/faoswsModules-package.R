@@ -12,4 +12,6 @@
 #' @author Sebastian Campbell
 #'
 
+if(getRversion() >= "2.15.1") utils::globalVariables("writeClipboard")
+
 NULL
