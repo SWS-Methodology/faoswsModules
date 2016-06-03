@@ -17,7 +17,11 @@
 PublishModule <- function(modulepath, destdir = modulepath, ignore = file.path(modulepath, ".moduleignore")){
 
   abs_path <- function(paths){
-    vapply(paths, tools::file_path_as_absolute, character(1))
+    ab <- function(p){
+      # Directories are normal paths
+      tools::file_path_as_absolute(sub("/$", "", p))
+    }
+    vapply(paths, ab, character(1))
   }
 
   destdir <- abs_path(destdir)
@@ -51,14 +55,19 @@ PublishModule <- function(modulepath, destdir = modulepath, ignore = file.path(m
     stop("All files in subdirectories must be .R files")
   }
 
+  # Check for uncommitted files
   repo <- repository(".")
+  # Don't add files that are ignored
+  git_ignored <- abs_path(file.path(modulepath,allfiles)) %in% abs_path(unlist(status(repo, ignored=TRUE)$ignored))
+  allfiles <- allfiles[!git_ignored]
+
   uncommitted <- abs_path(unlist(status(repo, all_untracked = TRUE)))
   module_uncommitted_index <- abs_path(file.path(modulepath,allfiles)) %in% uncommitted
 
   if(any(module_uncommitted_index)){
     stop(paste0("Some of the files that you wish to add to the modules are not in a commit:
          ", paste(allfiles[module_uncommitted_index], collapse = ", "),
-          "\nEither stash, commit or remove the file(s) to perfom an automatic publish"))
+          "\nEither stash, commit, remove or add the file(s) to a .moduleignore file to perfom an automatic publish"))
   }
 
   # Make temporary file where we'll be zipping things
