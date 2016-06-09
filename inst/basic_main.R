@@ -26,7 +26,7 @@ if(CheckDebug()){
 # Read in data from session key
 raw_data <- GetData(swsContext.datasets[[1]])
 
-processed_data <- raw_data[, Value := Value * 2]
+processed_data <- raw_data[, Value := doubleValue(Value)]
 
 # Save data back to a SWS dataset
 stats <- SaveData("agriculture", "aproduction", processed_data)

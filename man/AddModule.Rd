@@ -26,7 +26,7 @@ Working system including:
 \item metadata.xml
 \item sws.yml settings files
 \item .moduleignore file
-\item script subdirectories (future release)
+\item script subdirectories
 }
 
 

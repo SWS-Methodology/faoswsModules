@@ -8,7 +8,7 @@
 #' \item metadata.xml
 #' \item sws.yml settings files
 #' \item .moduleignore file
-#' \item script subdirectories (future release)
+#' \item script subdirectories
 #' }
 #'
 #' @param name character. Name of the new module
@@ -36,15 +36,17 @@ AddModule <- function(name="new_module", dir = sprintf("modules/%s", name), type
 
   mainfilename <-  "main.R"
   metadatafilename <- "metadata.xml"
+  Rfoldername <- "R"
 
   AddSettings(file = file.path(module_dir, "sws.yml"), gitignore = gitignore)
   AddModuleignore(module_dir)
 
   type_choice <- data.frame(name = c("basic", "ensure"),
                             file = c("basic_main.R", "ensure_main.R"),
+                            R = c("basic_R", NA),
                             stringsAsFactors = FALSE)
 
-  chosen_main <- type_choice[type_choice$name == type, "file"]
+  chosen_main <- unique(type_choice[type_choice$name %in% type, "file"])
   if(length(chosen_main) == 0){
     if(file.exists(type)){
       message("Type is not in the list, assuming filename")
@@ -54,18 +56,32 @@ AddModule <- function(name="new_module", dir = sprintf("modules/%s", name), type
     }
   }
 
+  chosen_R <- type_choice[type_choice$name %in% type, "R"]
+
+
   chooseCopy(mainfilename, chosen_main, module_dir)
   chooseCopy(metadatafilename, "sample_metadata.xml", module_dir)
+  if(length(chosen_R) != 0){
+    chooseCopy(Rfoldername, chosen_R, module_dir, isdir = TRUE)
+  }
 
 }
 
-chooseCopy <- function(file, samplefile, dir){
+chooseCopy <- function(file, samplefile, dir, isdir = FALSE){
   if (file.exists(file.path(dir, file))){
     message(sprintf("%s exists. Will not overwrite", file))
-
   } else {
+    # Copy relevant file
+    if(isdir && !file.exists(file.path(dir, file))){
+      # For directories
+      dir.create(file.path(dir, file))
+      fullsamplepath <- list.files(file.path(path.package("faoswsModules"), samplefile), full.names = TRUE)
+    } else {
+      # For single files
+      fullsamplepath <- file.path(path.package("faoswsModules"), samplefile)
+    }
 
-    file.copy(file.path(path.package("faoswsModules"), samplefile), file.path(dir, file))
-    message(sprintf("[SUCCESS] File %s created in %s", file, dir))
+    file.copy(fullsamplepath, file.path(dir, file), overwrite = FALSE)
+    message(sprintf("[SUCCESS] %s %s created in %s", ifelse(isdir, "Folder", "File"),  file, dir))
   }
 }
