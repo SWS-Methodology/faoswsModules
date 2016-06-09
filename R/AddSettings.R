@@ -90,5 +90,5 @@ AddSettings <- function(file = "sws.yml", gitignore = TRUE, fields=NULL){
     }
   }
 
-  message(sprintf("[SUCCESS] Settings file prepared"))
+  message(sprintf("[SUCCESS] Settings files prepared"))
 }

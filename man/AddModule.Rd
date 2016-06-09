@@ -4,12 +4,17 @@
 \alias{AddModule}
 \title{Make module skeleton}
 \usage{
-AddModule(name = "new_module", dir = sprintf("modules/\%s", name))
+AddModule(name = "new_module", dir = sprintf("modules/\%s", name),
+  type = "basic", gitignore = TRUE)
 }
 \arguments{
 \item{name}{character. Name of the new module}
 
 \item{dir}{character. Directory in which to place the new module}
+
+\item{type}{character. Either a valid reference to an example in the package (see Details) or a filename.}
+
+\item{gitignore}{character. Whether the gitignore should be modified to include the sws.yml file.}
 }
 \description{
 Make everything you need to get started on making modules for the Statisical
@@ -18,8 +23,17 @@ Working system including:
 \details{
 \itemize{
 \item main.R
-\item metadata.xml (future release)
+\item metadata.xml
+\item sws.yml settings files
+\item .moduleignore file
 \item script subdirectories (future release)
 }
+
+
+ The following are valid module types in the package:
+ \itemize{
+ \item "basic" - This is the most basic module which reads from a dataset, modifies it and writes back.
+ \item "ensure" - This module performs validation checks from `faoswsEnsure`
+ }
 }
 
