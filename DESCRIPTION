@@ -6,8 +6,7 @@ Author: Sebastian Campbell
 Maintainer: Sebastian Campbell <sebastian.campbell@fao.org>
 Description: Makes settings files and skeletons for modules.
 License: file LICENCE
-Imports: yaml, methods, git2r (>= 0.15.0.9000)
+Imports: yaml, methods
 Suggests: testthat
-Remotes: ropensci/git2r
 LazyData: TRUE
 RoxygenNote: 5.0.1
