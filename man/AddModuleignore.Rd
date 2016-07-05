@@ -13,7 +13,7 @@ AddModuleignore(dir = ".", contents = NULL)
 }
 \description{
 This function writes an ignore file that is parsed by
-\code{\link{PublishModule}} and describes files that are not to be packaged
+the temporarily archived \code{PublishModule} and describes files that are not to be packaged
 up.
 }
 
