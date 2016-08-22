@@ -50,8 +50,8 @@ AddSettings <- function(file = "sws.yml", gitignore = TRUE, fields=NULL){
   } else if(xor(file.exists(examplefile),file.exists(file))){
     # If one file exists and not the other, copy it
     if(file.exists(examplefile) && !file.exists(file))  {
-      message(sprintf("Example file %s exists, settings file doesn't. Creating settings file %s"),
-              examplefile, file)
+      message(sprintf("Example file %s exists, settings file doesn't. Creating settings file %s",
+              examplefile, file))
       file.copy(examplefile, file)
     } else {
       message(sprintf("Every settings file should have an example file. Creating example file %s",
