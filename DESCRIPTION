@@ -3,8 +3,7 @@ Type: Package
 Title: Tools to create and maintain modules of the Statistical Working System
 Date: 2016-08-23
 Version: 0.2.0
-Author: Sebastian Campbell
-Maintainer: Sebastian Campbell <sebastian.campbell@fao.org>
+Authors@R: person("Sebastian", "Campbell", role = c("aut", "cre"), email = "sebastian.campbell@fao.org")
 Description: Makes settings files and skeletons for modules.
 License: file LICENCE
 Imports: yaml, methods
