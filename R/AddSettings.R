@@ -15,14 +15,17 @@
 #' --- server: https://hqlprswsas1.hq.un.fao.org:8181/sws \cr
 #' --- token: 9876543210fedcba
 #'
-#' @param file character. Name of settings file to write
+#' @param dir character. Directory in which to write settings files
+#' @param filename character. Name of settings file to write
 #' @param gitignore logical. Should this file be added to the .gitignore?
 #' @param fields list. Manually specify the structure of the settings file
 #'
 #' @import yaml
 #' @export
 
-AddSettings <- function(file = "sws.yml", gitignore = TRUE, fields=NULL){
+AddSettings <- function(dir = ".", filename = "sws.yml", gitignore = TRUE, fields=NULL){
+
+  file <- file.path(dir, filename)
 
   # Basic settings file
   yaml_list <- list(current = "qa",
@@ -78,13 +81,13 @@ AddSettings <- function(file = "sws.yml", gitignore = TRUE, fields=NULL){
                                                 }
                                               })
 
-      if(!(file %in% parsed_gitignore)){
+      if(!(normalizePath(file) %in% normalizePath(parsed_gitignore, mustWork = FALSE))){
         ignore_connection <- file(".gitignore", "a")
         on.exit(close(ignore_connection))
         writeLines(paste0("\n"[no_newline], file), ignore_connection)
-        message(sprintf("filename %s added to .gitignore", file))
+        message(sprintf("Filename %s added to .gitignore", file))
       } else {
-        message(sprintf("filename %s already in .gitignore, not re-added", file))
+        message(sprintf("Filename %s already in .gitignore, not re-added", file))
       }
 
     }

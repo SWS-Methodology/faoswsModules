@@ -4,10 +4,13 @@
 \alias{AddSettings}
 \title{Add settings file to project}
 \usage{
-AddSettings(file = "sws.yml", gitignore = TRUE, fields = NULL)
+AddSettings(dir = ".", filename = "sws.yml", gitignore = TRUE,
+  fields = NULL)
 }
 \arguments{
-\item{file}{character. Name of settings file to write}
+\item{dir}{character. Directory in which to write settings files}
+
+\item{filename}{character. Name of settings file to write}
 
 \item{gitignore}{logical. Should this file be added to the .gitignore?}
 

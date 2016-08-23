@@ -7,7 +7,7 @@
 ReadSettings(file = "sws.yml", current = NULL)
 }
 \arguments{
-\item{file}{character. Name of the settings file.}
+\item{file}{character. Path of the settings file.}
 
 \item{current}{character. This overrides the 'current' field in the settings
 file.}

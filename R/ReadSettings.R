@@ -14,7 +14,7 @@
 #' specific server settings.}
 #'
 #'
-#' @param file character. Name of the settings file.
+#' @param file character. Path of the settings file.
 #' @param current character. This overrides the 'current' field in the settings
 #'   file.
 #'
@@ -24,7 +24,7 @@
 #'
 #' @export
 
-ReadSettings <- function(file="sws.yml", current=NULL){
+ReadSettings <- function(file = "sws.yml", current = NULL){
 
   if(!file.exists(file)){
     stop(sprintf("The settings file, %1$s, doesn't exist. Maybe you should
