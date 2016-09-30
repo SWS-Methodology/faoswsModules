@@ -49,12 +49,6 @@
 	<Datasets>
 		<MainDataset>
 			<Code>tablename</Code>
-			<SelectableDimensions>
-				<SelectableDimension compulsory="true">geographicAreaM49</SelectableDimension>
-				<SelectableDimension compulsory="true">measuredItemCPC</SelectableDimension>
-				<SelectableDimension compulsory="true">measuredElement</SelectableDimension>
-				<SelectableDimension compulsory="true">timePointYears</SelectableDimension>
-			</SelectableDimensions>
 		</MainDataset>
 	</Datasets>
 	<InteractiveValidation>false</InteractiveValidation>
