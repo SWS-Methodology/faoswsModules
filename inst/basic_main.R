@@ -23,10 +23,14 @@ if(CheckDebug()){
 
 }
 
+if(is.null(swsContext.computationParams$numberInput)){
+  swsContext.computationParams$numberInput <- 2
+}
+
 # Read in data from session key
 raw_data <- GetData(swsContext.datasets[[1]])
 
-processed_data <- raw_data[, Value := doubleValue(Value)]
+processed_data <- raw_data[, Value := multiplyValue(Value, swsContext.computationParams$numberInput)]
 
 # Save data back to a SWS dataset
 stats <- SaveData("agriculture", "aproduction", processed_data)

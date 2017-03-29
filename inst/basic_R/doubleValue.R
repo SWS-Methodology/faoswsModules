@@ -9,6 +9,6 @@
 #' @author Sebastian Campbell <sebastian.campbell@@fao.org>
 #'
 
-doublevalue <- function(val){
-  val * 2
+doublevalue <- function(val, mult){
+  val * mult
 }
