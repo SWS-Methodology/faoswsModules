@@ -1,4 +1,5 @@
-#' Function to simply double values
+
+#' Function to simply multiply values
 #'
 #' This function is a sample function and it's used in sample scripts such as
 #' the \code{basic} script mentioned in \code{\link{AddModule}} in this package
@@ -9,6 +10,6 @@
 #' @author Sebastian Campbell <sebastian.campbell@@fao.org>
 #'
 
-doublevalue <- function(val, mult){
+multiplyValue <- function(val, mult){
   val * mult
 }
