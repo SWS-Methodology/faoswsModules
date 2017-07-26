@@ -28,18 +28,12 @@ AddSettings <- function(dir = ".", filename = "sws.yml", gitignore = TRUE, field
   file <- file.path(dir, filename)
 
   # Basic settings file
-  yaml_list <- list(current = "qa",
-                    all = list(share="/media/share"),
-                    qa = list(certdir="path/to/qa/certs",
-                              server="https://hqlqasws1.hq.un.fao.org:8181/sws",
-                              token="abcdef0123456789"),
-                    production = list(certdir="path/to/prod/certs",
-                                      server="https://hqlprswsas1.hq.un.fao.org:8181/sws",
-                                      token="9876543210fedcba"))
+  sample_yml <- file.path(path.package("faoswsModules"), "sample_sws.yml")
+  yaml_list <- readChar(sample_yml, file.info(sample_yml)$size)
 
   # Overwrite the basic with a new one if it is provided
   if(!is.null(fields)){
-    yaml_list <- fields
+    yaml_list <- as.yaml(fields)
   }
 
   examplefile <- paste0(file, ".example")
@@ -65,8 +59,8 @@ AddSettings <- function(dir = ".", filename = "sws.yml", gitignore = TRUE, field
   } else {
     # If neither exist, create them
     message(sprintf("Neither settings nor example file exist. Creating %s and %s", file, examplefile))
-    writeLines(as.yaml(yaml_list), file)
-    writeLines(as.yaml(yaml_list), examplefile)
+    writeLines(yaml_list, file)
+    writeLines(yaml_list, examplefile)
   }
 
 
