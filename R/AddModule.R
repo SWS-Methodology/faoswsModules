@@ -38,7 +38,7 @@ AddModule <- function(name="new_module", dir = sprintf("modules/%s", name), type
   metadatafilename <- "metadata.xml"
   Rfoldername <- "R"
 
-  AddSettings(file = file.path(module_dir, "sws.yml"), gitignore = gitignore)
+  AddSettings(filename = file.path(module_dir, "sws.yml"), gitignore = gitignore)
   AddModuleignore(module_dir)
 
   type_choice <- data.frame(name = c("basic", "ensure"),
