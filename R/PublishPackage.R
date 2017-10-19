@@ -20,12 +20,11 @@
 PublishPackage <- function(version,
                            message = sprintf("Release version %s", version),
                            packpath = ".",
-                           destdir = packpath, date = Sys.Date(),
-                           remote,
+                           destdir = packpath,
+                           date = Sys.Date(),
                            document = TRUE,
                            check = TRUE,
-                           ignorefile = file.path(packpath, ".Rbuildignore"),
-                           verbose = TRUE){
+                           ignorefile = file.path(packpath, ".Rbuildignore")){
 
   ## This function performs the following:
   ## 1. Fixes documentation
@@ -56,11 +55,6 @@ PublishPackage <- function(version,
 
   # Check for uncommitted files
   repo <- repository(packpath)
-  # Note original HEAD so we can go back if everything goes wrong
-  original_HEAD <- commits(repo, n = 1)[[1]]
-
-  SUCCESS <- FALSE
-  on.exit(if(!SUCCESS){reset(original_HEAD, "hard")})
 
   # Don't worry about files that are in .gitignore
   git_ignored <- GetAbsolutePath(file.path(packpath, allfiles)) %in%
@@ -75,11 +69,19 @@ PublishPackage <- function(version,
   uncommitted <- GetAbsolutePath(unlist(status(repo, all_untracked = TRUE)))
   module_uncommitted_index <- GetAbsolutePath(file.path(packpath,allfiles)) %in% uncommitted
 
+  # These will most likely be forgotten files or documentation
+
   if(any(module_uncommitted_index)){
     stop(paste0("Some of the files in the package directory are not in a commit:
                 ", paste(allfiles[module_uncommitted_index], collapse = ", "),
                 "\nEither stash, commit, remove or add the file(s) to a .Rbuildignore file to perfom an automatic publish"))
   }
+
+  # Note original HEAD so we can go back if everything goes wrong
+  original_HEAD <- commits(repo, n = 1)[[1]]
+
+  SUCCESS <- FALSE
+  on.exit(if(!SUCCESS){reset(original_HEAD, "hard")})
 
   message("Updating DESCRIPTION")
 
@@ -92,7 +94,7 @@ PublishPackage <- function(version,
   package_name <- description[,"Package"]
   old_version <- package_version(description[,"Version"])
   if(new_version <= old_version){
-    stop(sprintf("New version %s needs to be greater than existing version %s",
+    stop(sprintf("New version %s needs to be higher than existing version %s",
                  new_version, old_version))
   }
   new_description <- description
@@ -106,13 +108,24 @@ PublishPackage <- function(version,
     devtools::check(packpath, document = document)
   }
 
+  message("Adding DESCRIPTION to repo")
   add(repo, description_path)
+  message("Committing new version")
   commit(repo, message)
-  tag(repo, paste0("v", version), message, session = TRUE)
+  message("Tagging new release")
+  tag_name <- paste0("v", version)
+  tag(repo, tag_name, message, session = TRUE)
+
+  on.exit(if(!SUCCESS){tag_delete(repo, tag_name)}, add = TRUE)
 
   SUCCESS = TRUE
 
-  sprintf("Successfully tagged %s %s for release", package_name, version)
+  message(sprintf("Successfully tagged %s %s for release", package_name, version))
+
+  invisible(data.frame(Package = package_name,
+             oldVersion = as.character(old_version),
+             newVersion = as.character(new_version),
+             Message = message))
 
 }
 

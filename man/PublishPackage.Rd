@@ -5,9 +5,9 @@
 \title{Publish a package to remote repository}
 \usage{
 PublishPackage(version, message = sprintf("Release version \%s", version),
-  packpath = ".", destdir = packpath, date = Sys.Date(), remote,
+  packpath = ".", destdir = packpath, date = Sys.Date(),
   document = TRUE, check = TRUE, ignorefile = file.path(packpath,
-  ".Rbuildignore"), verbose = TRUE)
+  ".Rbuildignore"))
 }
 \arguments{
 \item{version}{character. Valid R version. There's no need to prefix it with
