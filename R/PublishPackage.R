@@ -56,7 +56,13 @@ PublishPackage <- function(version,
 
   # Check for uncommitted files
   repo <- repository(packpath)
-  # Don't add files that are ignored
+  # Note original HEAD so we can go back if everything goes wrong
+  original_HEAD <- commits(repo, n = 1)[[1]]
+
+  SUCCESS <- FALSE
+  on.exit(if(!SUCCESS){reset(original_HEAD, "hard")})
+
+  # Don't worry about files that are in .gitignore
   git_ignored <- GetAbsolutePath(file.path(packpath, allfiles)) %in%
     GetAbsolutePath(unlist(status(repo, ignored=TRUE)$ignored))
 
@@ -75,7 +81,6 @@ PublishPackage <- function(version,
                 "\nEither stash, commit, remove or add the file(s) to a .Rbuildignore file to perfom an automatic publish"))
   }
 
-
   message("Updating DESCRIPTION")
 
   new_version <- package_version(version)
@@ -84,20 +89,15 @@ PublishPackage <- function(version,
   # including whitespace which might register a change in version control
   description_backup <- readLines(description_path)
   description <- read.dcf(file = textConnection(description_backup))
+  package_name <- description[,"Package"]
   old_version <- package_version(description[,"Version"])
   if(new_version <= old_version){
     stop(sprintf("New version %s needs to be greater than existing version %s",
                  new_version, old_version))
   }
   new_description <- description
-  new_description[,"Version"] <- as.character(new_version)
+  new_description[,"Version"] <- version
   new_description[,"Date"] <- as.character(date)
-  write.dcf(new_description, description_path)
-
-  SUCCESS <- FALSE
-  on.exit(if(!SUCCESS){writeLines(description_backup, description_path)},
-          add = TRUE)
-
   write.dcf(new_description, description_path)
 
   message("Running R CMD CHECK")
@@ -107,7 +107,13 @@ PublishPackage <- function(version,
   }
 
   add(repo, description_path)
-  on.exit(if(!SUCCESS){reset(repo, description_path)})
+  commit(repo, message)
+  tag(repo, paste0("v", version), message, session = TRUE)
+
+  SUCCESS = TRUE
+
+  sprintf("Successfully tagged %s %s for release", package_name, version)
+
 }
 
 FilterIgnored <- function(filelist, ignorelines){
