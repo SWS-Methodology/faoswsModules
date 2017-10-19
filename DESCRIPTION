@@ -6,6 +6,7 @@ Version: 0.2.1
 Authors@R: person("Sebastian", "Campbell", role = c("aut", "cre"), email = "sebastian.campbell@fao.org")
 Description: Makes settings files and skeletons for modules.
 License: file LICENCE
+Depends: R (>= 2.15.1)
 Imports: yaml, methods, devtools, git2r (>= 0.16.0)
 Suggests: testthat
 LazyData: TRUE

@@ -79,10 +79,10 @@ PublishPackage <- function(version,
   }
 
   # Note original HEAD so we can go back if everything goes wrong
-  original_HEAD <- commits(repo, n = 1)[[1]]
+  original_HEAD <- git2r::commits(repo, n = 1)[[1]]
 
   SUCCESS <- FALSE
-  on.exit(if(!SUCCESS){reset(original_HEAD, "hard")})
+  on.exit(if(!SUCCESS){git2r::reset(original_HEAD, "hard")})
 
   message("Updating DESCRIPTION")
 
@@ -109,14 +109,14 @@ PublishPackage <- function(version,
   }
 
   message("Adding DESCRIPTION to repo")
-  add(repo, description_path)
+  git2r::add(repo, description_path)
   message("Committing new version")
-  commit(repo, message)
+  git2r::commit(repo, message)
   message("Tagging new release")
   tag_name <- paste0("v", version)
-  tag(repo, tag_name, message, session = TRUE)
+  git2r::tag(repo, tag_name, message, session = TRUE)
 
-  on.exit(if(!SUCCESS){tag_delete(repo, tag_name)}, add = TRUE)
+  on.exit(if(!SUCCESS){git2r::tag_delete(repo, tag_name)}, add = TRUE)
 
   SUCCESS = TRUE
 
