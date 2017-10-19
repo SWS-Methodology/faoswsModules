@@ -13,19 +13,25 @@ PublishPackage(version, message = sprintf("Release version \%s", version),
 \item{version}{character. Valid R version. There's no need to prefix it with
 a 'v'}
 
+\item{message}{character. Message to go in tag label and}
+
 \item{packpath}{character. Package path relative to the project root}
 
 \item{destdir}{character. Destination directory for package By default,
 \code{packpath}}
 
+\item{date}{character or Date. Today's date to go in the Date field of the
+DESCRIPTION}
+
+\item{document}{logical, whether documentation should be run}
+
+\item{check}{logical whether RCMD check should be run}
+
 \item{ignorefile}{character. Location of .Rbuildignore file}
 }
 \description{
-When ready to upload your new package version, this function allows you to
-ignore files in a .moduleignore file (as well as any files beginning with
-"."). It then checks if the current files correspond to the current commit.
-If not, it throws an error. If there is no difference, the files are copied
-to a temporary folder and a line appended to the main R file with the current
-commit hash. They are then zipped up and copied back to the module folder.
+Creates a tagged commit suitable for the Statistical Working System. The
+documentation is checked, followed by a check that there are no uncommitted
+files which could end up the the commit. The commit is then made and tagged.
 }
 

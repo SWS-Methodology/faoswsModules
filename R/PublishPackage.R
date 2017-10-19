@@ -1,17 +1,19 @@
 #' Publish a package to remote repository
 #'
-#' When ready to upload your new package version, this function allows you to
-#' ignore files in a .moduleignore file (as well as any files beginning with
-#' "."). It then checks if the current files correspond to the current commit.
-#' If not, it throws an error. If there is no difference, the files are copied
-#' to a temporary folder and a line appended to the main R file with the current
-#' commit hash. They are then zipped up and copied back to the module folder.
+#' Creates a tagged commit suitable for the Statistical Working System. The
+#' documentation is checked, followed by a check that there are no uncommitted
+#' files which could end up the the commit. The commit is then made and tagged.
 #'
 #' @param version character. Valid R version. There's no need to prefix it with
 #'   a 'v'
+#' @param message character. Message to go in tag label and
 #' @param packpath character. Package path relative to the project root
+#' @param date character or Date. Today's date to go in the Date field of the
+#'   DESCRIPTION
 #' @param destdir character. Destination directory for package By default,
 #'   \code{packpath}
+#' @param document logical, whether documentation should be run
+#' @param check logical whether RCMD check should be run
 #' @param ignorefile character. Location of .Rbuildignore file
 #'
 #' @importFrom git2r repository status revparse_single
@@ -35,9 +37,8 @@ PublishPackage <- function(version,
     stop("A new version must be supplied in order to publish a package")
   }
 
-  message("Checking for documentation updates")
-
   if(document){
+    message("Checking for documentation updates")
     devtools::document(packpath)
   }
 
@@ -102,9 +103,8 @@ PublishPackage <- function(version,
   new_description[,"Date"] <- as.character(date)
   write.dcf(new_description, description_path)
 
-  message("Running R CMD CHECK")
-
   if(check){
+    message("Running R CMD CHECK")
     devtools::check(packpath, document = document)
   }
 
